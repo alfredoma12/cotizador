@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Solarflare | Cotizador Cargador EV</title>
+    <meta
+      name="description"
+      content="Cotizador web para instalación de cargadores de vehículos eléctricos de Solarflare."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <div class="brand-wrap" aria-label="Solarflare">
+          <img class="brand-logo" src="img/logo.png" alt="Solarflare logo" />
+        </div>
+      </header>
+
+      <main class="cotizador" aria-live="polite">
+        <div class="progress" aria-label="Progreso del cotizador">
+          <ol class="steps">
+            <li class="step-item active" data-step="1">
+              <span class="step-number">1</span>
+              <div class="step-text">
+                <small>Paso 1</small>
+                <strong>Cargador</strong>
+              </div>
+            </li>
+            <li class="step-item" data-step="2">
+              <span class="step-number">2</span>
+              <div class="step-text">
+                <small>Paso 2</small>
+                <strong>Distancia</strong>
+              </div>
+            </li>
+            <li class="step-item" data-step="3">
+              <span class="step-number">3</span>
+              <div class="step-text">
+                <small>Paso 3</small>
+                <strong>Cotización</strong>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <section class="step-panel active" data-step="1" aria-labelledby="titulo-cargador">
+          <div class="section-header">
+            <p class="eyebrow">Paso 1</p>
+            <h1 id="titulo-cargador">Elige tu cargador de vehículo eléctrico</h1>
+          </div>
+
+          <div id="error-cargador" class="error-message" aria-live="polite"></div>
+          <div id="catalogo-cargadores" class="catalog-grid"></div>
+
+          <div class="actions justify-end">
+            <button id="btn-continuar-cargador" class="button primary" type="button">
+              Continuar
+            </button>
+          </div>
+        </section>
+
+        <section class="step-panel" data-step="2" aria-labelledby="titulo-distancia">
+          <div class="section-header">
+            <p class="eyebrow">Paso 2</p>
+            <h2 id="titulo-distancia">¿A qué distancia está el cargador del medidor?</h2>
+          </div>
+
+          <div class="distance-card">
+            <p class="distance-copy">
+              Mide aproximadamente la distancia desde el medidor eléctrico de tu vivienda hasta el
+              lugar donde deseas instalar el cargador.
+            </p>
+
+            <label class="field-label" for="distancia-input">Distancia en metros</label>
+            <div class="input-with-unit">
+              <input
+                id="distancia-input"
+                type="number"
+                min="0.1"
+                step="0.1"
+                placeholder="Ej: 8"
+                inputmode="decimal"
+              />
+              <span class="unit">m</span>
+            </div>
+
+            <div id="error-distancia" class="error-message" aria-live="polite"></div>
+          </div>
+
+          <div class="actions two-buttons">
+            <button id="btn-volver-distancia" class="button secondary" type="button">Volver</button>
+            <button id="btn-calcular" class="button primary" type="button">
+              Calcular cotización
+            </button>
+          </div>
+        </section>
+
+        <section class="step-panel" data-step="3" aria-labelledby="titulo-resumen">
+          <div class="section-header">
+            <p class="eyebrow">Paso 3</p>
+            <h2 id="titulo-resumen">Tu cotización estimada</h2>
+          </div>
+
+          <div class="summary-card">
+            <div class="summary-head">
+              <div>
+                <p class="summary-label">Cargador seleccionado</p>
+                <h3 id="res-product-name">-</h3>
+              </div>
+              <span id="tag-product" class="summary-chip">-</span>
+            </div>
+
+            <div class="summary-list" aria-label="Resumen de la cotización">
+              <div class="summary-row">
+                <span>Cargador</span>
+                <strong id="res-cargador">$0</strong>
+              </div>
+              <div class="summary-row">
+                <span>Tablero eléctrico</span>
+                <strong id="res-tablero">$0</strong>
+              </div>
+              <div class="summary-row">
+                <span>Canalización + cableado</span>
+                <strong id="res-canalizacion">$0</strong>
+              </div>
+              <div class="summary-row">
+                <span>Mano de obra</span>
+                <strong id="res-manoobra">$0</strong>
+              </div>
+              <div class="summary-row subtotal-row">
+                <span>Subtotal instalación</span>
+                <strong id="res-subtotal">$0</strong>
+              </div>
+              <div class="summary-row iva-row">
+                <span>IVA instalación (19%)</span>
+                <strong id="res-iva">$0</strong>
+              </div>
+              <div class="summary-row total-row">
+                <span>Total</span>
+                <strong id="res-total">$0</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="details-panel">
+            <h3>Detalle de tu instalación</h3>
+            <ul id="detalle-cotizacion" class="detail-list"></ul>
+          </div>
+
+          <div class="notice-box">
+            <p>
+              Esta cotización es referencial y está sujeta a confirmación técnica en terreno. El
+              valor final puede variar dependiendo de las condiciones existentes en la instalación
+              eléctrica.
+            </p>
+            <p>
+              La distancia ingresada corresponde a una estimación. La instalación definitiva será
+              validada por nuestro equipo técnico.
+            </p>
+          </div>
+
+          <div class="actions two-buttons">
+            <button id="btn-volver-resumen" class="button secondary" type="button">Volver</button>
+            <button id="btn-pdf" class="button primary" type="button">📄 Descargar cotización en PDF</button>
+          </div>
+
+          <div class="actions single-action">
+            <a id="btn-whatsapp" class="button whatsapp" href="#" target="_blank" rel="noopener noreferrer">
+              💬 Coordinar visita por WhatsApp
+            </a>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

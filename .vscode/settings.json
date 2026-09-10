@@ -1,0 +1,8 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^node -e 'const fs=require\\(\"fs\"\\); const vm=require\\(\"vm\"\\); const code=fs\\.readFileSync\\(\"script\\.js\",\"utf8\"\\); global\\.document=\\{addEventListener:\\(\\)=>\\{\\}, querySelector:\\(\\)=>\\(\\{value:\"\", textContent:\"\", innerHTML:\"\", addEventListener:\\(\\)=>\\{\\}, dataset:\\{\\}, classList:\\{toggle:\\(\\)=>\\{\\}\\}, closest:\\(\\)=>null, style:\\{\\}\\}\\), querySelectorAll:\\(\\)=>\\[\\]\\}; global\\.window=\\{open:\\(\\)=>\\{\\}, jspdf:\\{jsPDF:function\\(\\)\\{ return \\{ setFillColor:\\(\\)=>\\{\\}, rect:\\(\\)=>\\{\\}, setTextColor:\\(\\)=>\\{\\}, setFontSize:\\(\\)=>\\{\\}, text:\\(\\)=>\\{\\}, setDrawColor:\\(\\)=>\\{\\}, line:\\(\\)=>\\{\\}, save:\\(\\)=>\\{\\} \\}; \\} \\}\\} \\}; global\\.module=\\{exports:\\{\\}\\}; vm\\.runInNewContext\\(code,\\{require, module:global\\.module, document:global\\.document, window:global\\.window, console, encodeURIComponent\\}\\); const mod=global\\.module\\.exports; const p=mod\\.CARGADORES\\[4\\]; const distances=\\[1,5,6,10,11,15,20,25\\]; for \\(const d of distances\\)\\{ const c=mod\\.calcularCotizacion\\(p,d\\); const expected = d<=5 \\? 300000 : 300000 \\+ Math\\.max\\(0, Math\\.ceil\\(\\(d-5\\)/5\\)\\)\\*50000; console\\.log\\(\"dist=\"\\+d\\+\" obra=\"\\+c\\.manoObraNeta\\+\" expected=\"\\+expected\\+\" subtotal=\"\\+c\\.subtotalInstalacionNeto\\+\" iva=\"\\+c\\.ivaInstalacion\\+\" total=\"\\+c\\.totalCotizacion\\); \\} console\\.log\\(\"cargador_precio=\"\\+p\\.precio\\);'$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}
